@@ -160,15 +160,12 @@ nav a:hover{opacity:1;color:var(--laser)}
 .wk-media-item iframe{width:100%;height:100%;border:none;display:block}
 .video-badge{position:absolute;top:.6rem;left:.6rem;font-size:.38rem;letter-spacing:.22em;text-transform:uppercase;background:rgba(2,2,7,.75);color:var(--wc,var(--laser));padding:.25rem .6rem;border:1px solid var(--wc,var(--laser));pointer-events:none;font-family:'DM Mono',monospace}
 .img-expand{position:absolute;inset:0;cursor:zoom-in}
-/* Gallery navigator */
-.gallery-wrap{position:relative}
-.gallery-wrap .wk-media-item{display:none}
-.gallery-wrap .wk-media-item.active{display:block}
-.gal-nav{display:flex;align-items:center;gap:1rem;margin-top:.8rem}
-.gal-btn{background:none;border:1px solid rgba(237,230,211,.12);color:rgba(237,230,211,.4);font-size:.7rem;width:2.2rem;height:2.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'DM Mono',monospace;flex-shrink:0}
-.gal-btn:hover{border-color:var(--wc,var(--laser));color:var(--wc,var(--laser))}
-.gal-btn:disabled{opacity:.18;cursor:default}
-.gal-counter{font-size:.42rem;letter-spacing:.2em;color:rgba(237,230,211,.25);font-family:'DM Mono',monospace}
+/* Lightbox nav */
+#lb-prev,#lb-next{position:absolute;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(237,230,211,.18);color:rgba(237,230,211,.5);font-size:1.2rem;width:3rem;height:3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'DM Mono',monospace;z-index:10}
+#lb-prev{left:2rem}#lb-next{right:2rem}
+#lb-prev:hover,#lb-next:hover{border-color:var(--laser);color:var(--laser)}
+#lb-prev:disabled,#lb-next:disabled{opacity:.15;cursor:default}
+#lb-counter{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);font-size:.42rem;letter-spacing:.2em;color:rgba(237,230,211,.3);font-family:'DM Mono',monospace}
 @keyframes detailIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 
 /* INSTALLATIONS */
@@ -259,7 +256,13 @@ footer{padding:2rem 5vw;border-top:1px solid rgba(237,230,211,.04);display:flex;
 </head>
 <body>
 
-<div id="lightbox"><span id="lightbox-close">✕ close</span><img id="lightbox-img" src="" alt=""></div>
+<div id="lightbox">
+  <span id="lightbox-close">✕ close</span>
+  <button id="lb-prev">←</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lb-next">→</button>
+  <span id="lb-counter"></span>
+</div>
 <div id="intro">
   <div class="i-line">Tony Macpela</div>
   <div class="i-line">Actor · Laser · Video · Interactive · Light</div>
@@ -326,10 +329,9 @@ footer{padding:2rem 5vw;border-top:1px solid rgba(237,230,211,.04);display:flex;
     </p>
     <div class="mf-portrait" id="portraitWrap">
       <!-- PORTRAIT: paste your Google Drive link here as src -->
-      <div class="mf-portrait-placeholder" id="portraitPlaceholder">
-        <span>↑</span>
-        <span>Add your portrait</span>
-        <span style="opacity:.6;font-size:.36rem">Paste Google Drive link<br>in PORTRAIT_URL below</span>
+      <div class="mf-portrait-placeholder" id="portraitPlaceholder" style="width:100%;aspect-ratio:3/4;background:rgba(255,255,255,.03);border:1px dashed rgba(237,230,211,.12);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.8rem;color:rgba(237,230,211,.18);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;font-family:'DM Mono',monospace;text-align:center;padding:2rem">
+        <span>portrait.jpg</span>
+        <span style="opacity:.5;font-size:.36rem;text-transform:none;letter-spacing:.1em">Put portrait.jpg next to index.html<br>then add "portrait | portrait.jpg" in Settings sheet</span>
       </div>
     </div>
   </div>
@@ -414,16 +416,14 @@ const MAP_COLORS  = ['var(--amber)','var(--red)','var(--cyan)','var(--violet)','
 function setPortrait(url){
   if(!url)return;
   const wrap=document.getElementById('portraitWrap');
+  // Extract Drive ID and use same CDN as all other images
   const m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  const id=m?m[1]:null;
-  if(!id){wrap.innerHTML=`<img src="${url}" alt="Tony Macpela" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block">`;return;}
-  // thumbnail endpoint is most reliable for public Drive images
-  const imgSrc=`https://drive.google.com/thumbnail?id=${id}&sz=w800`;
-  wrap.innerHTML=`<img src="${imgSrc}" alt="Tony Macpela"
+  const src=m ? `https://lh3.googleusercontent.com/d/${m[1]}` : url;
+  wrap.innerHTML=`<img src="${src}" alt="Tony Macpela"
     style="width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(15%) contrast(1.05);border:1px solid rgba(237,230,211,.08);display:block;transition:filter .5s"
     onmouseover="this.style.filter='grayscale(0%) contrast(1.1)'"
     onmouseout="this.style.filter='grayscale(15%) contrast(1.05)'"
-    onerror="this.parentElement.innerHTML='<div class=mf-portrait-placeholder><span>Check Drive is public</span></div>'">`;
+    onerror="this.src='https://drive.google.com/thumbnail?id=${m?m[1]:''}\u0026sz=w800'">`;
 }
 
 /* CSV */
@@ -455,61 +455,65 @@ function driveThumb(url, isVideo){
   if(yt)return{type:'youtube',src:`https://www.youtube.com/embed/${yt[1]}`};
   const dr=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if(dr){
-    // Drive links in video column → use preview player (plays in iframe)
-    // Drive links in image column → use thumbnail
     if(isVideo)return{type:'drive-video',src:`https://drive.google.com/file/d/${dr[1]}/preview?autoplay=1&mute=1`};
-    return{type:'image',src:`https://drive.google.com/thumbnail?id=${dr[1]}&sz=w1200`};
+    // Use lh3 CDN for images — no CORS, works for public files
+    return{type:'image',src:`https://lh3.googleusercontent.com/d/${dr[1]}`};
   }
   if(/\.(jpg|jpeg|png|webp|gif)/i.test(url))return{type:'image',src:url};
   return null;
 }
 
+// All images shown in grid — click opens lightbox at that index with ←→ navigation
+let lbItems=[], lbIdx=0;
+
 function buildMedia(items){
   if(!items.length)return'';
-  const uid='gal'+Math.random().toString(36).slice(2,7);
-  let h=`<div class="gallery-wrap" id="${uid}">`;
-  h+=`<div class="wk-media solo">`;
+  // only images go into lightbox array; videos stay inline
+  const imgItems=items.filter(m=>m.type==='image');
+  const cls=items.length===1?'solo':items.length===2?'duo':'';
+  let h=`<div class="wk-media ${cls}">`;
+  let imgIdx=0;
   items.forEach((m,i)=>{
-    const activeClass=i===0?' active':'';
     if(m.type==='image'){
-      h+=`<div class="wk-media-item${activeClass}"><img src="${m.src}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><div class="img-expand" onclick="openLightbox('${m.src}')"></div></div>`;
+      const ci=imgIdx++;
+      h+=`<div class="wk-media-item"><img src="${m.src}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><div class="img-expand" onclick="openLightbox(${JSON.stringify(imgItems.map(x=>x.src))},${ci})"></div></div>`;
     }else if(m.type==='drive-video'){
-      h+=`<div class="wk-media-item${activeClass}"><iframe src="${m.src}" allowfullscreen allow="autoplay; muted" loading="lazy"></iframe><span class="video-badge">▶ video</span></div>`;
+      h+=`<div class="wk-media-item"><iframe src="${m.src}" allowfullscreen allow="autoplay; muted" loading="lazy"></iframe><span class="video-badge">▶ video</span></div>`;
     }else{
-      h+=`<div class="wk-media-item${activeClass}"><iframe src="${m.src}" allowfullscreen loading="lazy"></iframe><span class="video-badge">▶ video</span></div>`;
+      h+=`<div class="wk-media-item"><iframe src="${m.src}" allowfullscreen loading="lazy"></iframe><span class="video-badge">▶ video</span></div>`;
     }
   });
-  h+='</div>';
-  if(items.length>1){
-    h+=`<div class="gal-nav">
-      <button class="gal-btn" onclick="galNav('${uid}',-1)" id="${uid}-prev" disabled>←</button>
-      <span class="gal-counter" id="${uid}-cnt">1 / ${items.length}</span>
-      <button class="gal-btn" onclick="galNav('${uid}',1)" id="${uid}-next">→</button>
-    </div>`;
-  }
-  h+='</div>';
-  return h;
+  return h+'</div>';
 }
 
-function galNav(uid,dir){
-  const wrap=document.getElementById(uid);
-  if(!wrap)return;
-  const items=[...wrap.querySelectorAll('.wk-media-item')];
-  const cur=items.findIndex(el=>el.classList.contains('active'));
-  const next=Math.max(0,Math.min(items.length-1,cur+dir));
-  items[cur].classList.remove('active');
-  items[next].classList.add('active');
-  const cnt=document.getElementById(uid+'-cnt');
-  if(cnt)cnt.textContent=`${next+1} / ${items.length}`;
-  const prev=document.getElementById(uid+'-prev');
-  const nxt=document.getElementById(uid+'-next');
-  if(prev)prev.disabled=next===0;
-  if(nxt)nxt.disabled=next===items.length-1;
+function openLightbox(srcs, idx){
+  lbItems = typeof srcs === 'string' ? [srcs] : srcs;
+  lbIdx = idx || 0;
+  updateLb();
+  document.getElementById('lightbox').classList.add('open');
 }
-
-function openLightbox(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').classList.add('open');}
-document.getElementById('lightbox').addEventListener('click',()=>document.getElementById('lightbox').classList.remove('open'));
-document.getElementById('lightbox-close').addEventListener('click',e=>{e.stopPropagation();document.getElementById('lightbox').classList.remove('open');});
+function updateLb(){
+  document.getElementById('lightbox-img').src = lbItems[lbIdx];
+  const cnt = document.getElementById('lb-counter');
+  if(cnt) cnt.textContent = lbItems.length > 1 ? `${lbIdx+1} / ${lbItems.length}` : '';
+  const prev = document.getElementById('lb-prev');
+  const next = document.getElementById('lb-next');
+  if(prev) prev.disabled = lbIdx === 0;
+  if(next) next.disabled = lbIdx === lbItems.length - 1;
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+document.getElementById('lightbox').addEventListener('click', closeLightbox);
+document.getElementById('lightbox-close').addEventListener('click',e=>{e.stopPropagation();closeLightbox();});
+document.getElementById('lb-prev').addEventListener('click',e=>{e.stopPropagation();if(lbIdx>0){lbIdx--;updateLb();}});
+document.getElementById('lb-next').addEventListener('click',e=>{e.stopPropagation();if(lbIdx<lbItems.length-1){lbIdx++;updateLb();}});
+document.getElementById('lightbox-img').addEventListener('click',e=>e.stopPropagation());
+// Keyboard navigation
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lightbox').classList.contains('open'))return;
+  if(e.key==='ArrowLeft'&&lbIdx>0){lbIdx--;updateLb();}
+  if(e.key==='ArrowRight'&&lbIdx<lbItems.length-1){lbIdx++;updateLb();}
+  if(e.key==='Escape')closeLightbox();
+});
 
 /* Render Works */
 function renderWorks(rows){
