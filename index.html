@@ -188,17 +188,22 @@ nav a:hover{opacity:1;color:var(--laser)}
 
 /* MAPPING */
 #mapping{padding-bottom:4vh}
-.mp-list{display:flex;flex-direction:column;gap:1px;background:rgba(237,230,211,.03);margin:0 5vw}
-.mp{background:var(--bg);display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;padding:2.5rem 3rem;cursor:default;transition:background .3s;position:relative;overflow:hidden}
-.mp::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--mc,var(--amber));opacity:0;transition:opacity .3s,box-shadow .3s}
-.mp:hover::before{opacity:1;box-shadow:0 0 14px var(--mc,var(--amber))}
-.mp:hover{background:rgba(255,255,255,.013)}
+.mp-list{display:flex;flex-direction:column;gap:2px;margin:0 5vw}
+.mp{background:rgba(255,255,255,.01);border:1px solid rgba(237,230,211,.04);padding:0;position:relative;overflow:hidden;transition:border-color .3s}
+.mp:hover{border-color:rgba(237,230,211,.1)}
+.mp-video{width:100%;aspect-ratio:16/9;display:block;border:none;background:#000}
+.mp-thumb-wrap{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;cursor:pointer}
+.mp-thumb-wrap img{width:100%;height:100%;object-fit:cover;opacity:.6;transition:opacity .4s,transform .6s;display:block}
+.mp-thumb-wrap:hover img{opacity:.85;transform:scale(1.03)}
+.mp-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.mp-play-btn{width:4rem;height:4rem;border:2px solid rgba(237,230,211,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:rgba(237,230,211,.7);background:rgba(2,2,7,.4);transition:all .3s}
+.mp-thumb-wrap:hover .mp-play-btn{border-color:var(--mc,var(--amber));color:var(--mc,var(--amber));background:rgba(2,2,7,.6);transform:scale(1.1)}
+.mp-info{padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.mp-t{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,2.5vw,2.2rem);letter-spacing:.04em;color:var(--fg);transition:color .3s;line-height:.95}
 .mp:hover .mp-t{color:var(--mc,var(--amber))}
-.mp-t{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.7rem,3.5vw,3rem);letter-spacing:.04em;transition:color .3s;margin-bottom:.5rem}
-.mp-d{font-size:clamp(.62rem,.95vw,.82rem);line-height:1.8;color:rgba(237,230,211,.3);font-family:'Syne',sans-serif}
-.mp-tag{font-size:.4rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(237,230,211,.1);text-align:right;font-family:'DM Mono',monospace}
-.mp-thumb{width:120px;height:70px;object-fit:cover;opacity:.5;transition:opacity .3s;border:1px solid rgba(237,230,211,.06)}
-.mp:hover .mp-thumb{opacity:.8}
+.mp-d{font-size:clamp(.62rem,.9vw,.8rem);line-height:1.75;color:rgba(237,230,211,.28);font-family:'Syne',sans-serif;margin-top:.4rem;max-width:600px}
+.mp-tag{font-size:.4rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(237,230,211,.12);font-family:'DM Mono',monospace;flex-shrink:0;padding-top:.3rem}
+.mp-no-video{width:100%;aspect-ratio:16/9;background:rgba(255,255,255,.02);display:flex;align-items:center;justify-content:center;color:rgba(237,230,211,.06);font-size:.45rem;letter-spacing:.3em;text-transform:uppercase;font-family:'DM Mono',monospace}
 
 /* SPECTACOLE */
 #spectacole{padding-bottom:6vh}
@@ -359,7 +364,7 @@ footer{padding:2rem 5vw;border-top:1px solid rgba(237,230,211,.04);display:flex;
     <div><div class="s-act">Act III</div><div class="s-title scramble" data-final="Video Mapping">Video Mapping</div></div>
     <div><div class="s-count" id="map-count"></div></div>
   </div>
-  <div id="map-list" class="mp-list"><div class="loading-row">— loading projects</div></div>
+  <div id="map-list" class="mp-list"><div class="loading-row" style="grid-column:1/-1">— loading projects</div></div>
 </section>
 
 
@@ -640,17 +645,57 @@ function renderMapping(rows){
   list.innerHTML='';
   rows.forEach((r,i)=>{
     const col=MAP_COLORS[i%MAP_COLORS.length];
-    const thumb=driveThumb(r.imagine||r.image||r.img||'',false);
+    const title=r.titlu||r.title||'';
+    const desc=r.descriere||r.description||r.desc||'';
+    const tag=r.tag||r.festival||'';
+    const videoUrl=r.video||r.link||'';
+    const imgUrl=r.imagine||r.image||r.img||'';
+    const vid=driveThumb(videoUrl,true);
+    const img=driveThumb(imgUrl,false);
+
     const mp=document.createElement('div');
     mp.className='mp r';mp.style.setProperty('--mc',col);
-    mp.innerHTML=`<div><div class="mp-t">${r.titlu||r.title||''}</div><div class="mp-d">${r.descriere||r.description||r.desc||''}</div></div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem">
-        ${thumb&&thumb.type==='image'?`<img class="mp-thumb" src="${thumb.src}" alt="" onerror="this.style.display='none'">`:''}
-        <div class="mp-tag">${r.tag||r.festival||''}</div>
+
+    let mediaHTML='';
+    if(vid&&(vid.type==='vimeo'||vid.type==='youtube'||vid.type==='drive-video')){
+      // Show thumbnail first, click to load iframe
+      const thumbSrc=img?img.src:'';
+      if(thumbSrc){
+        mediaHTML=`<div class="mp-thumb-wrap" onclick="loadMpVideo(this,'${vid.src}')">
+          <img src="${thumbSrc}" alt="${title}" onerror="this.parentElement.querySelector('.mp-no-video') && (this.style.display='none')">
+          <div class="mp-play"><div class="mp-play-btn">▶</div></div>
+        </div>`;
+      } else {
+        mediaHTML=`<div class="mp-thumb-wrap" onclick="loadMpVideo(this,'${vid.src}')" style="background:#000">
+          <div class="mp-play"><div class="mp-play-btn">▶</div></div>
+        </div>`;
+      }
+    } else if(img){
+      mediaHTML=`<div class="mp-thumb-wrap" onclick="openLightbox(['${img.src}'],0)">
+        <img src="${img.src}" alt="${title}" onerror="this.style.display='none'">
+        <div class="mp-play"><div class="mp-play-btn" style="font-size:.8rem">⊕</div></div>
+      </div>`;
+    } else {
+      mediaHTML=`<div class="mp-no-video">no media yet</div>`;
+    }
+
+    mp.innerHTML=`${mediaHTML}
+      <div class="mp-info">
+        <div><div class="mp-t">${title}</div><div class="mp-d">${desc}</div></div>
+        <div class="mp-tag">${tag}</div>
       </div>`;
     list.appendChild(mp);
   });
   revealNew();
+}
+
+function loadMpVideo(wrap, src){
+  const iframe=document.createElement('iframe');
+  iframe.src=src+(src.includes('?')?'&':'?')+'autoplay=1';
+  iframe.className='mp-video';
+  iframe.allowFullscreen=true;
+  iframe.allow='autoplay; fullscreen';
+  wrap.replaceWith(iframe);
 }
 
 /* Fallback data — shown if Sheet fails */
