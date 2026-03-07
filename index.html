@@ -223,7 +223,8 @@ nav a:hover{opacity:1;color:var(--laser)}
 .ct-pre{font-size:.5rem;letter-spacing:.45em;text-transform:uppercase;color:var(--laser);opacity:.55;margin-bottom:2.5rem;position:relative;z-index:1;font-family:'DM Mono',monospace}
 .ct-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,16vw,15rem);line-height:.85;position:relative;z-index:1;pointer-events:none;user-select:none}
 .ct-lets{color:var(--fg);display:block}
-.ct-make{color:transparent;-webkit-text-stroke:1px rgba(237,230,211,.16);display:block;margin-left:7vw}
+.ct-make{color:transparent;-webkit-text-stroke:1px rgba(237,230,211,.16);display:block;margin-left:7vw;transition:color 1.2s ease,-webkit-text-stroke 1.2s ease}
+.ct-make.lit{color:var(--laser);-webkit-text-stroke:1px var(--laser);text-shadow:0 0 40px rgba(61,255,18,.4),0 0 80px rgba(61,255,18,.15)}
 .ct-light{color:var(--laser);display:block;margin-left:-2vw;animation:ctPulse 4s ease-in-out infinite}
 @keyframes ctPulse{0%,100%{text-shadow:0 0 40px rgba(61,255,18,.28),0 0 80px rgba(61,255,18,.1)}50%{text-shadow:0 0 60px rgba(61,255,18,.52),0 0 120px rgba(61,255,18,.22)}}
 .ct-links{display:flex;flex-wrap:wrap;gap:1rem;margin-top:5rem;position:relative;z-index:1}
@@ -276,7 +277,6 @@ footer{padding:2rem 5vw;border-top:1px solid rgba(237,230,211,.04);display:flex;
   <div class="prog-dot"></div>
   <div class="prog-dot"></div>
   <div class="prog-dot"></div>
-  <div class="prog-dot"></div>
 </div>
 <div id="audioHint"><div class="ah-dot"></div><span>sound on</span></div>
 
@@ -286,7 +286,6 @@ footer{padding:2rem 5vw;border-top:1px solid rgba(237,230,211,.04);display:flex;
     <li><a href="#works">Theater</a></li>
     <li><a href="#installations">Install.</a></li>
     <li><a href="#mapping">Mapping</a></li>
-    <li><a href="#spectacole">Spectacole</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -355,22 +354,7 @@ footer{padding:2rem 5vw;border-top:1px solid rgba(237,230,211,.04);display:flex;
   <div id="map-list" class="mp-list"><div class="loading-row">— loading projects</div></div>
 </section>
 
-<section id="spectacole">
-  <div class="s-head r">
-    <div><div class="s-act">Act IV</div><div class="s-title scramble" data-final="Spectacole">Spectacole</div></div>
-  </div>
-  <div class="spec-note r">
-    <strong>AproapE — Video Projection Suite</strong> for Cervantes Institute, Bucharest.<br>
-    <em>Performative readings of current Hispanic theater — through which contemporary Spanish dramaturgy catches the light of the stage in a series of reading-performances.</em><br>
-    Click on each name for the YouTube link.
-  </div>
-  <div class="spec-grid">
-    <div class="sp r"><div class="sp-n">Singură cu Marilyn</div><div class="sp-type">Video Projection</div><div class="sp-d">Directed by Bobi Pricop</div></div>
-    <div class="sp r"><div class="sp-n">Chiriaș</div><div class="sp-type">Video Projection</div><div class="sp-d">Directed by Mihai Gligan</div></div>
-    <div class="sp r"><div class="sp-n">De parcă seara asta ar fi...</div><div class="sp-type">Video Projection</div><div class="sp-d">Directed by Luiza Dabija</div></div>
-    <div class="sp r"><div class="sp-n">Epoca frigului. Conversații cu Antigona</div><div class="sp-type">Video Projection</div><div class="sp-d">Directed by Andrei Măjeri</div></div>
-  </div>
-</section>
+
 
 <section id="contact">
   <canvas id="contactCanvas"></canvas>
@@ -542,8 +526,10 @@ function renderWorks(rows){
     det.className='wk-detail';det.style.setProperty('--wc',col);
     det.innerHTML=`<div class="wk-detail-inner">
       <div class="wk-detail-header">
-        <div class="wk-detail-bigtitle">${title}</div>
-        <div class="wk-detail-meta"><div class="wk-detail-type">${type}</div><div class="wk-detail-dir">${dir}</div></div>
+        <div class="wk-detail-meta" style="align-items:flex-start">
+          <div class="wk-detail-type">${type}</div>
+          <div class="wk-detail-dir">${dir}</div>
+        </div>
       </div>
       ${desc?`<div class="wk-detail-text">${desc}</div>`:''}
       ${buildMedia(media)}
@@ -557,7 +543,36 @@ function renderWorks(rows){
     });
     list.appendChild(wk);list.appendChild(det);
   });
+  // ── Spectacole subsection appended at bottom of Theater ──
+  renderSpectacole(list);
   revealNew();hookCursor();
+}
+
+function renderSpectacole(list){
+  const divider=document.createElement('div');
+  divider.style.cssText='padding:3rem 5vw 1.5rem;border-top:1px solid rgba(237,230,211,.06);margin-top:1rem';
+  divider.innerHTML=`
+    <div style="font-size:.48rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(61,255,18,.45);margin-bottom:.5rem;font-family:'DM Mono',monospace">— AproapE</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,3.5rem);letter-spacing:.04em;color:rgba(237,230,211,.55);margin-bottom:.4rem">Video Projection Suite</div>
+    <div style="font-size:.55rem;color:rgba(237,230,211,.22);font-family:'Syne',sans-serif;font-style:italic;max-width:600px;line-height:1.7">Performative readings of current Hispanic theater — through which contemporary Spanish dramaturgy catches the light of the stage. Click each name for the YouTube link.</div>`;
+  list.appendChild(divider);
+
+  const specs=[
+    {n:'Singură cu Marilyn',d:'Directed by Bobi Pricop'},
+    {n:'Chiriaș',d:'Directed by Mihai Gligan'},
+    {n:'De parcă seara asta ar fi...',d:'Directed by Luiza Dabija'},
+    {n:'Epoca frigului. Conversații cu Antigona',d:'Directed by Andrei Măjeri'},
+  ];
+  const grid=document.createElement('div');
+  grid.className='spec-grid';
+  grid.style.cssText='margin:1rem 5vw 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:rgba(237,230,211,.03)';
+  specs.forEach(s=>{
+    const sp=document.createElement('div');
+    sp.className='sp r';
+    sp.innerHTML=`<div class="sp-n">${s.n}</div><div class="sp-type">Video Projection</div><div class="sp-d">${s.d}</div>`;
+    grid.appendChild(sp);
+  });
+  list.appendChild(grid);
 }
 
 /* Render Installations */
@@ -642,8 +657,14 @@ async function loadSheets(){
       });
     }
     const wRows=wR.ok?parseCSV(await wR.text()):FB.works;
-    const iRows=iR.ok?parseCSV(await iR.text()):FB.inst;
-    const mRows=mR.ok?parseCSV(await mR.text()):FB.mapping;
+    // Validate inst rows have installation-specific columns, else use fallback
+    let iRows=iR.ok?parseCSV(await iR.text()):[];
+    const iValid=iRows.length&&(iRows[0].tech||iRows[0].tehnologie||iRows[0].titlu&&!iRows[0].tip);
+    if(!iValid)iRows=FB.inst;
+    // Validate mapping rows
+    let mRows=mR.ok?parseCSV(await mR.text()):[];
+    const mValid=mRows.length&&(mRows[0].tag||mRows[0].festival||mRows[0].titlu&&!mRows[0].tip);
+    if(!mValid)mRows=FB.mapping;
     renderWorks(wRows.length?wRows:FB.works);
     renderInst(iRows.length?iRows:FB.inst);
     renderMapping(mRows.length?mRows:FB.mapping);
@@ -822,7 +843,13 @@ const cSec=document.getElementById('contact'),cc=document.getElementById('contac
 function resCC(){cc.width=cSec.offsetWidth||innerWidth;cc.height=cSec.offsetHeight||600;}
 resCC();window.addEventListener('resize',resCC);
 let paintPts=[];
-function checkContact(){const rect=cSec.getBoundingClientRect();isContact=rect.top<innerHeight&&rect.bottom>0;cur.classList.toggle('paint-mode',isContact);}
+function checkContact(){
+  const rect=cSec.getBoundingClientRect();
+  isContact=rect.top<innerHeight&&rect.bottom>0;
+  cur.classList.toggle('paint-mode',isContact);
+  // Light up MAKE when contact section is visible
+  if(rect.top<innerHeight*0.7)document.querySelector('.ct-make')?.classList.add('lit');
+}
 cSec.addEventListener('mousemove',e=>{
   if(!isContact)return;const rect=cSec.getBoundingClientRect();
   paintPts.push({x:e.clientX-rect.left,y:e.clientY-rect.top,t:Date.now(),s:Math.min(speed,28)});
@@ -870,7 +897,7 @@ function updateAudio(){
   FL.frequency.setTargetAtTime(110+speed*9,AC.currentTime,.1);GN.gain.setTargetAtTime(Math.min(.05,.018+speed*.0025),AC.currentTime,.05);
 }
 
-const sIds=['hero','stats','works','installations','mapping','spectacole','contact'];
+const sIds=['hero','stats','works','installations','mapping','contact'];
 const pDots=[...document.querySelectorAll('.prog-dot')];
 pDots.forEach((d,i)=>d.addEventListener('click',()=>document.getElementById(sIds[i])?.scrollIntoView({behavior:'smooth'})));
 function updateDots(){sIds.forEach((id,i)=>{const el=document.getElementById(id);if(!el)return;const r=el.getBoundingClientRect();pDots[i].classList.toggle('active',r.top<=innerHeight*.5&&r.bottom>=innerHeight*.5);});}
