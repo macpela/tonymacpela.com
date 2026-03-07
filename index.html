@@ -389,10 +389,9 @@ footer{padding:2rem 5vw;border-top:1px solid rgba(237,230,211,.04);display:flex;
 /* Google Sheet */
 const BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQWspA3z2q74OgGL93_5wMspSyQMvBtEdTnQhxm8LoHYCfPxl5MU1JB20dDx2nSJ6iysIENyRodalFc/pub?output=csv';
 const SHEET_URLS = {
-  works:    BASE + '&sheet=Theater',
-  inst:     BASE + '&sheet=Installations',
-  mapping:  BASE + '&sheet=Mapping',
-  settings: BASE + '&sheet=Settings'
+  works:   BASE + '&gid=0',
+  inst:    BASE + '&gid=1701438761',
+  mapping: BASE + '&gid=858524527'
 };
 
 const WK_COLORS   = ['var(--laser)','var(--cyan)','var(--amber)','var(--violet)','var(--red)','var(--cyan)'];
@@ -680,20 +679,9 @@ const FB = {
 
 async function loadSheets(){
   try{
-    const [wR,iR,mR,sR]=await Promise.all([
-      fetch(SHEET_URLS.works),fetch(SHEET_URLS.inst),
-      fetch(SHEET_URLS.mapping),fetch(SHEET_URLS.settings)
+    const [wR,iR,mR]=await Promise.all([
+      fetch(SHEET_URLS.works),fetch(SHEET_URLS.inst),fetch(SHEET_URLS.mapping)
     ]);
-    // Settings tab: two columns — key, value
-    // Row 1: portrait | https://drive.google.com/...
-    if(sR.ok){
-      const sRows=parseCSV(await sR.text());
-      sRows.forEach(r=>{
-        const key=(r.key||r.cheie||Object.values(r)[0]||'').toLowerCase().trim();
-        const val=(r.value||r.valoare||Object.values(r)[1]||'').trim();
-        if(key==='portrait'||key==='portret')setPortrait(val);
-      });
-    }
     const wRows=wR.ok?parseCSV(await wR.text()):FB.works;
     let iRows=iR.ok?parseCSV(await iR.text()):[];
     if(!iRows.length)iRows=FB.inst;
