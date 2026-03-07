@@ -170,7 +170,7 @@ nav a:hover{opacity:1;color:var(--laser)}
 
 /* INSTALLATIONS */
 #installations{padding-bottom:4vh}
-.inst-grid{margin:0 5vw;display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.inst-grid{margin:0 5vw;display:grid;grid-template-columns:1fr 1fr;gap:3px;align-items:start}
 .inst-card{background:rgba(255,255,255,.014);border:1px solid rgba(237,230,211,.04);padding:2.5rem;cursor:default;transition:background .3s,border-color .3s;position:relative;overflow:hidden}
 .inst-card:hover{background:rgba(255,255,255,.025);border-color:rgba(237,230,211,.09)}
 .inst-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--fc,var(--laser));box-shadow:0 0 10px var(--fc,var(--laser));transform:scaleY(0);transform-origin:bottom;transition:transform .38s cubic-bezier(.34,1.56,.64,1)}
@@ -183,6 +183,8 @@ nav a:hover{opacity:1;color:var(--laser)}
 .inst-desc{font-size:clamp(.75rem,1.05vw,.88rem);line-height:1.85;color:rgba(237,230,211,.32);font-family:'Syne',sans-serif}
 .inst-link{display:inline-block;margin-top:.8rem;font-size:.38rem;letter-spacing:.22em;text-transform:uppercase;color:var(--fc,var(--laser));opacity:.4;text-decoration:none;border:1px solid currentColor;padding:.28rem .75rem;transition:opacity .2s;font-family:'DM Mono',monospace}
 .inst-link:hover{opacity:1}
+.inst-card.open{border-color:rgba(237,230,211,.15);background:rgba(255,255,255,.03)}
+.inst-card.open::before{transform:scaleY(1)}
 
 /* MAPPING */
 #mapping{padding-bottom:4vh}
@@ -588,16 +590,46 @@ function renderInst(rows){
   list.innerHTML='';
   rows.forEach((r,i)=>{
     const col=INST_COLORS[i%INST_COLORS.length];
-    const img=driveThumb(r.imagine||r.image||r.img||'',false);
-    const link=r.link||r.video||'';
+    const title=r.titlu||r.title||'';
+    const tech=r.tech||r.tehnologie||'';
+    const desc=r.descriere||r.description||r.desc||'';
+    const link=r.link||'';
+    const imgs=(r.imagine||r.image||r.img||'').split(',').map(s=>s.trim()).filter(Boolean);
+    const vids=(r.video||'').split(',').map(s=>s.trim()).filter(Boolean);
+    const media=[...vids.map(u=>driveThumb(u,true)),...imgs.map(u=>driveThumb(u,false))].filter(Boolean);
+    const firstImg=media.find(m=>m.type==='image');
+
     const card=document.createElement('div');
-    card.className='inst-card r';card.style.setProperty('--fc',col);
-    card.innerHTML=`${img&&img.type==='image'?`<img class="inst-img" src="${img.src}" alt="${r.titlu||''}" onerror="this.style.display='none'">`:''}
-      <div class="inst-tech">${r.tech||r.tehnologie||''}</div>
-      <div class="inst-name">${r.titlu||r.title||''}</div>
-      <div class="inst-desc">${r.descriere||r.description||r.desc||''}</div>
-      ${link?`<a class="inst-link" href="${link}" target="_blank">↗ documentation</a>`:''}`;
+    card.className='inst-card r';
+    card.style.setProperty('--fc',col);
+    card.style.cursor='pointer';
+    card.innerHTML=`
+      ${firstImg?`<img class="inst-img" src="${firstImg.src}" alt="${title}" onerror="this.style.display='none'">`:''}
+      <div class="inst-tech">${tech}</div>
+      <div class="inst-name">${title}</div>
+      <div class="inst-desc">${desc}</div>
+      ${link?`<a class="inst-link" href="${link}" target="_blank" onclick="event.stopPropagation()">↗ documentation</a>`:''}
+      ${media.length>1?`<div style="margin-top:.8rem;font-size:.38rem;letter-spacing:.22em;text-transform:uppercase;color:var(--fc,var(--laser));opacity:.4;font-family:'DM Mono',monospace">+ ${media.length} photos / videos</div>`:''}`;
+
+    // Detail panel below card
+    const det=document.createElement('div');
+    det.className='inst-detail';
+    det.style.cssText=`display:none;grid-column:1/-1;padding:0 0 2rem;animation:detailIn .4s ease forwards`;
+    det.style.setProperty('--fc',col);
+    det.innerHTML=`<div style="padding:1.5rem 2.5rem 0">${buildMedia(media)}</div>`;
+
+    card.addEventListener('click',()=>{
+      const was=card.classList.contains('open');
+      document.querySelectorAll('.inst-card').forEach(c=>c.classList.remove('open'));
+      document.querySelectorAll('.inst-detail').forEach(d=>d.style.display='none');
+      if(!was){
+        card.classList.add('open');
+        det.style.display='block';
+      }
+    });
+
     list.appendChild(card);
+    list.appendChild(det);
   });
   revealNew();hookCursor();
 }
