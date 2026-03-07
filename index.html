@@ -223,8 +223,14 @@ nav a:hover{opacity:1;color:var(--laser)}
 .ct-pre{font-size:.5rem;letter-spacing:.45em;text-transform:uppercase;color:var(--laser);opacity:.55;margin-bottom:2.5rem;position:relative;z-index:1;font-family:'DM Mono',monospace}
 .ct-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,16vw,15rem);line-height:.85;position:relative;z-index:1;pointer-events:none;user-select:none}
 .ct-lets{color:var(--fg);display:block}
-.ct-make{color:transparent;-webkit-text-stroke:1px rgba(237,230,211,.16);display:block;margin-left:7vw;transition:color 1.2s ease,-webkit-text-stroke 1.2s ease}
-.ct-make.lit{color:var(--laser);-webkit-text-stroke:1px var(--laser);text-shadow:0 0 40px rgba(61,255,18,.4),0 0 80px rgba(61,255,18,.15)}
+.ct-make{
+  position:relative;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(237,230,211,.16);
+  display:block;margin-left:7vw;
+  background-image:radial-gradient(circle at -999px -999px, var(--amber) 0%, transparent 0%);
+  -webkit-background-clip:text;background-clip:text;
+}
 .ct-light{color:var(--laser);display:block;margin-left:-2vw;animation:ctPulse 4s ease-in-out infinite}
 @keyframes ctPulse{0%,100%{text-shadow:0 0 40px rgba(61,255,18,.28),0 0 80px rgba(61,255,18,.1)}50%{text-shadow:0 0 60px rgba(61,255,18,.52),0 0 120px rgba(61,255,18,.22)}}
 .ct-links{display:flex;flex-wrap:wrap;gap:1rem;margin-top:5rem;position:relative;z-index:1}
@@ -847,14 +853,35 @@ function checkContact(){
   const rect=cSec.getBoundingClientRect();
   isContact=rect.top<innerHeight&&rect.bottom>0;
   cur.classList.toggle('paint-mode',isContact);
-  // Light up MAKE when contact section is visible
-  if(rect.top<innerHeight*0.7)document.querySelector('.ct-make')?.classList.add('lit');
 }
+let makePts=[];
 cSec.addEventListener('mousemove',e=>{
-  if(!isContact)return;const rect=cSec.getBoundingClientRect();
-  paintPts.push({x:e.clientX-rect.left,y:e.clientY-rect.top,t:Date.now(),s:Math.min(speed,28)});
+  if(!isContact)return;
+  const rect=cSec.getBoundingClientRect();
+  const lx=e.clientX-rect.left, ly=e.clientY-rect.top;
+  paintPts.push({x:lx,y:ly,t:Date.now(),s:Math.min(speed,28)});
   if(paintPts.length>400)paintPts=paintPts.slice(-400);
+
+  // Paint MAKE text — track mouse points near ct-make element
+  const makeEl=document.querySelector('.ct-make');
+  if(makeEl){
+    const mr=makeEl.getBoundingClientRect();
+    const expandY=mr.height*1.2;
+    if(e.clientY>mr.top-expandY && e.clientY<mr.bottom+expandY){
+      makePts.push({x:e.clientX-mr.left, y:e.clientY-mr.top});
+      if(makePts.length>300)makePts=makePts.slice(-300);
+      updateMakePaint(makeEl,mr);
+    }
+  }
 });
+
+function updateMakePaint(el,mr){
+  if(!makePts.length)return;
+  // Build radial gradients from visited points
+  const W=mr.width, H=mr.height*3;
+  const grads=makePts.map(p=>`radial-gradient(ellipse ${W*0.18}px ${H*0.5}px at ${p.x}px ${p.y+H*0.35}px, var(--amber) 0%, transparent 75%)`);
+  el.style.backgroundImage=grads.join(',');
+}
 function drawContact(){
   cg.fillStyle='rgba(2,2,7,0.028)';cg.fillRect(0,0,cc.width,cc.height);
   const now=Date.now(),[r,g,b]=rgb();
