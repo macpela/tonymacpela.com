@@ -695,14 +695,10 @@ async function loadSheets(){
       });
     }
     const wRows=wR.ok?parseCSV(await wR.text()):FB.works;
-    // Validate inst rows have installation-specific columns, else use fallback
     let iRows=iR.ok?parseCSV(await iR.text()):[];
-    const iValid=iRows.length&&(iRows[0].tech||iRows[0].tehnologie||iRows[0].titlu&&!iRows[0].tip);
-    if(!iValid)iRows=FB.inst;
-    // Validate mapping rows
+    if(!iRows.length)iRows=FB.inst;
     let mRows=mR.ok?parseCSV(await mR.text()):[];
-    const mValid=mRows.length&&(mRows[0].tag||mRows[0].festival||mRows[0].titlu&&!mRows[0].tip);
-    if(!mValid)mRows=FB.mapping;
+    if(!mRows.length)mRows=FB.mapping;
     renderWorks(wRows.length?wRows:FB.works);
     renderInst(iRows.length?iRows:FB.inst);
     renderMapping(mRows.length?mRows:FB.mapping);
