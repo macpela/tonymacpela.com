@@ -614,9 +614,9 @@ function renderInst(rows){
     // Detail panel below card
     const det=document.createElement('div');
     det.className='inst-detail';
-    det.style.cssText=`display:none;grid-column:1/-1;padding:0 0 2rem;animation:detailIn .4s ease forwards`;
-    det.style.setProperty('--fc',col);
-    det.innerHTML=`<div style="padding:1.5rem 2.5rem 0">${buildMedia(media)}</div>`;
+    det.style.cssText='display:none;grid-column:1/-1;padding:0 0 2rem;animation:detailIn .4s ease forwards;background:rgba(255,255,255,.01);border-top:1px solid rgba(237,230,211,.06)';
+    det.style.setProperty('--wc',col);  // buildMedia uses --wc
+    det.innerHTML=`<div style="padding:1.5rem 2.5rem">${buildMedia(media)}</div>`;
 
     card.addEventListener('click',()=>{
       const was=card.classList.contains('open');
