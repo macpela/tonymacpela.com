@@ -656,17 +656,26 @@ function renderMapping(rows){
     const mp=document.createElement('div');
     mp.className='mp r';mp.style.setProperty('--mc',col);
 
+    // Auto-extract thumbnail from YouTube/Vimeo if no image provided
+    function autoThumb(videoUrl, vidObj){
+      if(img)return img.src;
+      const yt=videoUrl.match(/(?:youtu\.be\/|[?&]v=|embed\/)([a-zA-Z0-9_-]{11})/);
+      if(yt)return`https://img.youtube.com/vi/${yt[1]}/hqdefault.jpg`;
+      const vim=videoUrl.match(/vimeo\.com\/(\d+)/);
+      if(vim)return`https://vumbnail.com/${vim[1]}.jpg`;
+      return'';
+    }
+
     let mediaHTML='';
     if(vid&&(vid.type==='vimeo'||vid.type==='youtube'||vid.type==='drive-video')){
-      // Show thumbnail first, click to load iframe
-      const thumbSrc=img?img.src:'';
+      const thumbSrc=autoThumb(videoUrl,vid);
       if(thumbSrc){
         mediaHTML=`<div class="mp-thumb-wrap" onclick="loadMpVideo(this,'${vid.src}')">
-          <img src="${thumbSrc}" alt="${title}" onerror="this.parentElement.querySelector('.mp-no-video') && (this.style.display='none')">
+          <img src="${thumbSrc}" alt="${title}" onerror="this.style.opacity='.05'">
           <div class="mp-play"><div class="mp-play-btn">▶</div></div>
         </div>`;
       } else {
-        mediaHTML=`<div class="mp-thumb-wrap" onclick="loadMpVideo(this,'${vid.src}')" style="background:#000">
+        mediaHTML=`<div class="mp-thumb-wrap" onclick="loadMpVideo(this,'${vid.src}')" style="background:#111">
           <div class="mp-play"><div class="mp-play-btn">▶</div></div>
         </div>`;
       }
