@@ -633,8 +633,6 @@ function renderWorks(rows){
   // Update stat counter
   const swEl=document.getElementById('stat-works');
   if(swEl)animateCount(swEl, rows.length);
-  const siEl=document.getElementById('stat-inst');
-  if(siEl)animateCount(siEl, rows.length);
   revealNew();hookCursor();
 }
 
@@ -713,6 +711,8 @@ function renderInst(rows){
     list.appendChild(card);
     list.appendChild(det);
   });
+  const siEl=document.getElementById('stat-inst');
+  if(siEl)animateCount(siEl, rows.length);
   revealNew();hookCursor();
 }
 
