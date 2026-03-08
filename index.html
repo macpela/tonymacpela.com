@@ -661,7 +661,7 @@ function renderSpectacole(list){
       <div class="sp-n" style="color:inherit">${s.n}</div>
       <div class="sp-type">Video Projection</div>
       <div class="sp-d">${s.d}</div>
-      <div style="margin-top:.6rem;font-size:.38rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);opacity:.5;font-family:'DM Mono',monospace">↗ watch</div>
+      <div style="margin-top:1rem;font-size:clamp(.65rem,.9vw,.8rem);letter-spacing:.18em;text-transform:uppercase;color:var(--red);opacity:.85;font-family:'DM Mono',monospace;border:1px solid rgba(255,40,0,.35);display:inline-block;padding:.3rem .8rem">↗ watch on youtube</div>
     </a>`;
     grid.appendChild(sp);
   });
@@ -950,10 +950,10 @@ const root=document.documentElement;
 function updateChroma(){
   if(SY>innerHeight*.7){root.style.setProperty('--ca-op-tony','0');root.style.setProperty('--ca-op-mac','0');return;}
   if(speed>5){
-    const t=Math.min((speed-5)/18,1),off=(2+t*13).toFixed(1)+'px';
+    const t=Math.min((speed-5)/12,1),off=(4+t*22).toFixed(1)+'px';
     root.style.setProperty('--ca-off',off);
-    root.style.setProperty('--ca-op-tony',(0.3+t*.35).toFixed(2));
-    root.style.setProperty('--ca-op-mac',Math.min(0.98,0.5+t*.45+0.3).toFixed(2));
+    root.style.setProperty('--ca-op-tony',(0.5+t*.5).toFixed(2));
+    root.style.setProperty('--ca-op-mac',Math.min(1.0,0.7+t*.3).toFixed(2));
   }else{
     const t=parseFloat(getComputedStyle(root).getPropertyValue('--ca-op-tony'))||0;
     root.style.setProperty('--ca-op-tony',Math.max(0,t-.003).toFixed(3));
