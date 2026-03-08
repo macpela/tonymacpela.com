@@ -500,7 +500,7 @@ function driveThumb(url, isVideo){
   url=url.trim();
   const vim=url.match(/vimeo\.com\/(\d+)/);
   if(vim)return{type:'vimeo',src:`https://player.vimeo.com/video/${vim[1]}?color=3dff12&title=0&byline=0`};
-  const yt=url.match(/(?:youtu\.be\/|[?&]v=|embed\/)([a-zA-Z0-9_-]{11})/);
+  const yt=url.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([a-zA-Z0-9_-]{11})/);
   if(yt)return{type:'youtube',src:`https://www.youtube.com/embed/${yt[1]}`};
   const dr=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if(dr){
@@ -718,7 +718,7 @@ function renderMapping(rows){
     // Auto-extract thumbnail from YouTube/Vimeo if no image provided
     function autoThumb(videoUrl, vidObj){
       if(img)return img.src;
-      const yt=videoUrl.match(/(?:youtu\.be\/|[?&]v=|embed\/)([a-zA-Z0-9_-]{11})/);
+      const yt=videoUrl.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([a-zA-Z0-9_-]{11})/);
       if(yt)return`https://img.youtube.com/vi/${yt[1]}/hqdefault.jpg`;
       const vim=videoUrl.match(/vimeo\.com\/(\d+)/);
       if(vim)return`https://vumbnail.com/${vim[1]}.jpg`;
@@ -924,10 +924,10 @@ const root=document.documentElement;
 function updateChroma(){
   if(SY>innerHeight*.7){root.style.setProperty('--ca-op-tony','0');root.style.setProperty('--ca-op-mac','0');return;}
   if(speed>5){
-    const t=Math.min((speed-5)/18,1),off=(3+t*16).toFixed(1)+'px';
+    const t=Math.min((speed-5)/18,1),off=(2+t*13).toFixed(1)+'px';
     root.style.setProperty('--ca-off',off);
-    root.style.setProperty('--ca-op-tony',(0.45+t*.4).toFixed(2));
-    root.style.setProperty('--ca-op-mac',Math.min(0.95,0.45+t*.4+0.28).toFixed(2));
+    root.style.setProperty('--ca-op-tony',(0.3+t*.35).toFixed(2));
+    root.style.setProperty('--ca-op-mac',Math.min(0.75,0.3+t*.35+0.2).toFixed(2));
   }else{
     const t=parseFloat(getComputedStyle(root).getPropertyValue('--ca-op-tony'))||0;
     root.style.setProperty('--ca-op-tony',Math.max(0,t-.009).toFixed(3));
@@ -965,7 +965,7 @@ function buildLine(id,text,cls){
 buildLine('lineTony','TONY','tony-l');buildLine('lineMac','MACPELA','mac-l');
 const magL=[...document.querySelectorAll('.mag-letter')];
 function updateMag(){
-  if(SY>innerHeight*.65)return;const STR=42,RAD=200;
+  if(SY>innerHeight*.65)return;const STR=52,RAD=210;
   magL.forEach(el=>{
     const rect=el.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
     const dx=mx-cx,dy=my-cy,dist=Math.hypot(dx,dy);
