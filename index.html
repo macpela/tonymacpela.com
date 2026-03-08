@@ -228,26 +228,28 @@ letter-spacing:.02em;line-height:.85
 .ct-pool{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 45% at 28% 65%,rgba(61,255,18,.04) 0%,transparent 70%);animation:poolBreath 9s ease-in-out infinite}
 @keyframes poolBreath{0%,100%{opacity:1}50%{opacity:.4}}
 .ct-hint{font-size:.45rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(237,230,211,.15);margin-bottom:2rem;position:relative;z-index:1;font-family:‘DM Mono’,monospace}
-.ct-pre{font-size:.5rem;letter-spacing:.45em;text-transform:uppercase;color:var(–laser);opacity:.55;margin-bottom:2.5rem;position:relative;z-index:1;font-family:‘DM Mono’,monospace}
-.ct-big{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(4.5rem,16vw,15rem);line-height:.85;position:relative;z-index:1;pointer-events:none;user-select:none}
+.ct-inner{display:grid;grid-template-columns:1fr auto;gap:6vw;align-items:center;position:relative;z-index:1}
+.ct-left{pointer-events:none;user-select:none}
+.ct-pre{font-size:.55rem;letter-spacing:.4em;text-transform:uppercase;color:var(–laser);opacity:.6;margin-bottom:2rem;font-family:‘DM Mono’,monospace}
+.ct-big{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(4.5rem,13vw,13rem);line-height:.85}
 .ct-lets{color:var(–fg);display:block}
 .ct-make{
-position:relative;
-color:transparent;
+position:relative;color:transparent;
 -webkit-text-stroke:1px rgba(237,230,211,.16);
-display:block;margin-left:7vw;
+display:block;margin-left:5vw;
 background-image:radial-gradient(circle at -999px -999px, var(–amber) 0%, transparent 0%);
 -webkit-background-clip:text;background-clip:text;
 }
-.ct-light{color:var(–laser);display:block;margin-left:-2vw;animation:ctPulse 4s ease-in-out infinite}
+.ct-light{color:var(–laser);display:block;margin-left:-1vw;animation:ctPulse 4s ease-in-out infinite}
 @keyframes ctPulse{0%,100%{text-shadow:0 0 40px rgba(61,255,18,.28),0 0 80px rgba(61,255,18,.1)}50%{text-shadow:0 0 60px rgba(61,255,18,.52),0 0 120px rgba(61,255,18,.22)}}
-.ct-links{display:flex;flex-wrap:wrap;gap:1rem;margin-top:5rem;position:relative;z-index:1}
-.ct-a{text-decoration:none;display:flex;align-items:baseline;gap:1rem;padding:.9rem 2.2rem;border:1px solid rgba(237,230,211,.08);color:var(–fg);font-size:.6rem;letter-spacing:.12em;position:relative;overflow:hidden;transition:color .35s,border-color .35s;font-family:‘DM Mono’,monospace}
+.ct-right{display:flex;flex-direction:column;gap:.8rem;flex-shrink:0;min-width:280px}
+.ct-a{text-decoration:none;display:flex;flex-direction:column;gap:.3rem;padding:1.2rem 1.8rem;border:1px solid rgba(237,230,211,.08);color:var(–fg);position:relative;overflow:hidden;transition:color .35s,border-color .35s}
 .ct-a::before{content:’’;position:absolute;inset:0;background:var(–lc);transform:scaleX(0);transform-origin:left;transition:transform .38s cubic-bezier(.16,1,.3,1);z-index:0}
 .ct-a:hover::before{transform:scaleX(1)}
 .ct-a:hover{color:var(–bg);border-color:var(–lc)}
 .ct-a>*{position:relative;z-index:1}
-.ct-lbl{font-size:.38rem;letter-spacing:.3em;text-transform:uppercase;opacity:.3}
+.ct-lbl{font-size:.38rem;letter-spacing:.3em;text-transform:uppercase;opacity:.35;font-family:‘DM Mono’,monospace}
+.ct-val{font-size:clamp(.85rem,1.3vw,1.1rem);font-family:‘Syne’,sans-serif;font-weight:600;letter-spacing:.04em}
 .ca-1{–lc:var(–laser)}.ca-2{–lc:var(–red)}.ca-3{–lc:var(–cyan)}.ca-4{–lc:var(–violet)}
 
 .loading-row{padding:2rem 5vw;font-size:.45rem;letter-spacing:.3em;color:rgba(237,230,211,.18);text-transform:uppercase;animation:loadPulse 1.5s ease-in-out infinite;font-family:‘DM Mono’,monospace}
@@ -309,8 +311,8 @@ nav a{font-size:.38rem;letter-spacing:.18em}
 /* contact */
 #contact{padding:10vh 5vw}
 .ct-big{font-size:clamp(3.5rem,18vw,7rem)}
-.ct-links{flex-direction:column}
-.ct-a{width:100%}
+.ct-inner{grid-template-columns:1fr}
+.ct-right{min-width:unset}
 
 /* footer */
 footer{flex-direction:column;gap:.5rem}
@@ -385,9 +387,9 @@ nav a{font-size:.32rem}
 </section>
 
 <section id="stats">
-  <div class="stat-item s1 r"><div class="stat-num" data-target="5">0</div><div class="stat-label">Theater Productions</div></div>
-  <div class="stat-item s2 r" style="transition-delay:.06s"><div class="stat-num" data-target="5">0</div><div class="stat-label">Interactive Installations</div></div>
-  <div class="stat-item s3 r" style="transition-delay:.12s"><div class="stat-num" data-target="4">0</div><div class="stat-label">Video Mapping Projects</div></div>
+  <div class="stat-item s1 r"><div class="stat-num" id="stat-works">0</div><div class="stat-label">Theater Productions</div></div>
+  <div class="stat-item s2 r" style="transition-delay:.06s"><div class="stat-num" id="stat-inst">0</div><div class="stat-label">Interactive Installations</div></div>
+  <div class="stat-item s3 r" style="transition-delay:.12s"><div class="stat-num" id="stat-map">0</div><div class="stat-label">Video Mapping Projects</div></div>
   <div class="stat-item s4 r" style="transition-delay:.18s"><div class="stat-num" data-target="2025">0</div><div class="stat-label">Ars Electronica Featured</div></div>
 </section>
 
@@ -432,15 +434,27 @@ nav a{font-size:.32rem}
   <canvas id="contactCanvas"></canvas>
   <div class="ct-pool"></div>
   <div class="ct-hint r">— draw with the light in this space</div>
-  <div class="ct-pre r" style="transition-delay:.05s">Let's create something unforgettable</div>
-  <div class="ct-big r" style="transition-delay:.1s">
-    <span class="ct-lets">LET'S</span><span class="ct-make">MAKE</span><span class="ct-light">LIGHT.</span>
-  </div>
-  <div class="ct-links r" style="transition-delay:.15s">
-    <a class="ct-a ca-1" href="mailto:maccpela@gmail.com"><span class="ct-lbl">Email</span><span>maccpela@gmail.com</span></a>
-    <a class="ct-a ca-2" href="tel:+40720906907"><span class="ct-lbl">Phone</span><span>+40 720 906 907</span></a>
-    <a class="ct-a ca-3" href="https://instagram.com/tony_macpela" target="_blank"><span class="ct-lbl">Instagram</span><span>@tony_macpela</span></a>
-    <a class="ct-a ca-4" href="https://linktr.ee" target="_blank"><span class="ct-lbl">All Links</span><span>LinkTree</span></a>
+  <div class="ct-inner r" style="transition-delay:.05s">
+    <div class="ct-left">
+      <div class="ct-pre">Let's create something unforgettable</div>
+      <div class="ct-big">
+        <span class="ct-lets">LET'S</span><span class="ct-make">MAKE</span><span class="ct-light">LIGHT.</span>
+      </div>
+    </div>
+    <div class="ct-right">
+      <a class="ct-a ca-1" href="mailto:maccpela@gmail.com">
+        <span class="ct-lbl">Email</span><span class="ct-val">maccpela@gmail.com</span>
+      </a>
+      <a class="ct-a ca-2" href="tel:+40720906907">
+        <span class="ct-lbl">Phone</span><span class="ct-val">+40 720 906 907</span>
+      </a>
+      <a class="ct-a ca-3" href="https://instagram.com/tony_macpela" target="_blank">
+        <span class="ct-lbl">Instagram</span><span class="ct-val">@tony_macpela</span>
+      </a>
+      <a class="ct-a ca-4" href="https://linktr.ee" target="_blank">
+        <span class="ct-lbl">All Links</span><span class="ct-val">LinkTree</span>
+      </a>
+    </div>
   </div>
 </section>
 <footer><span>© 2025 Tony Macpela</span><span>Bucharest · Romania · Actor · Laser / Video · Interactive · Technical Director</span></footer>
@@ -616,6 +630,11 @@ function renderWorks(rows){
   });
   // ── Spectacole subsection appended at bottom of Theater ──
   renderSpectacole(list);
+  // Update stat counter
+  const swEl=document.getElementById('stat-works');
+  if(swEl)animateCount(swEl, rows.length);
+  const siEl=document.getElementById('stat-inst');
+  if(siEl)animateCount(siEl, rows.length);
   revealNew();hookCursor();
 }
 
@@ -754,6 +773,8 @@ function renderMapping(rows){
       </div>`;
     list.appendChild(mp);
   });
+  const smEl=document.getElementById('stat-map');
+  if(smEl)animateCount(smEl, rows.length);
   revealNew();
 }
 
@@ -1058,6 +1079,16 @@ const pDots=[...document.querySelectorAll('.prog-dot')];
 pDots.forEach((d,i)=>d.addEventListener('click',()=>document.getElementById(sIds[i])?.scrollIntoView({behavior:'smooth'})));
 function updateDots(){sIds.forEach((id,i)=>{const el=document.getElementById(id);if(!el)return;const r=el.getBoundingClientRect();pDots[i].classList.toggle('active',r.top<=innerHeight*.5&&r.bottom>=innerHeight*.5);});}
 
+function animateCount(el, target){
+  if(!el||!target)return;
+  el.dataset.target=target;
+  const t0=performance.now();
+  (function step(now){
+    const p=Math.min(1,(now-t0)/1800),ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(ease*target);
+    if(p<1)requestAnimationFrame(step);
+  })(t0);
+}
 const sObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,target=+el.dataset.target,suf=el.dataset.suffix||'';const t0=performance.now();(function step(now){const p=Math.min(1,(now-t0)/1800),ease=1-Math.pow(1-p,3);el.textContent=Math.round(ease*target)+suf;if(p<1)requestAnimationFrame(step);})(t0);sObs.unobserve(el);});},{threshold:.5});
 document.querySelectorAll('.stat-num[data-target]').forEach(el=>sObs.observe(el));
 
