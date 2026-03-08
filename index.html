@@ -53,7 +53,7 @@ nav a:hover{opacity:1;color:var(--laser)}
 #hero{min-height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 5vw 10vh}
 .mag-letter{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:clamp(6.5rem,19vw,18rem);line-height:.88;letter-spacing:-.01em;will-change:transform;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
 .tony-l{color:var(--fg);text-shadow:calc(-1 * var(--ca-off)) 0 rgba(255,32,0,var(--ca-op-tony)),var(--ca-off) 0 rgba(0,212,255,var(--ca-op-tony))}
-.mac-l{color:transparent;-webkit-text-stroke:1.2px rgba(237,230,211,.3);filter:drop-shadow(calc(-2 * var(--ca-off)) 0 rgba(255,32,0,var(--ca-op-mac))) drop-shadow(calc(2 * var(--ca-off)) 0 rgba(0,212,255,var(--ca-op-mac)));animation:macShimmer 5s ease-in-out infinite}
+.mac-l{color:transparent;-webkit-text-stroke:1.2px rgba(237,230,211,.3);filter:drop-shadow(calc(-3 * var(--ca-off)) 0 rgba(255,32,0,var(--ca-op-mac))) drop-shadow(calc(3 * var(--ca-off)) 0 rgba(0,212,255,var(--ca-op-mac)));animation:macShimmer 5s ease-in-out infinite}
 @keyframes macShimmer{0%,100%{-webkit-text-stroke:1.2px rgba(237,230,211,.26)}50%{-webkit-text-stroke:1.2px rgba(237,230,211,.44)}}
 .h-line{display:block;overflow:visible;line-height:.88}
 .h-tony-line{transform:translateX(-1.5vw)}
@@ -211,14 +211,14 @@ nav a:hover{opacity:1;color:var(--laser)}
 .spec-note strong{color:rgba(237,230,211,.65);font-weight:600}
 .spec-note em{color:rgba(237,230,211,.28);font-style:italic}
 .spec-grid{margin:0 5vw;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:rgba(237,230,211,.03)}
-.sp{background:var(--bg);padding:2rem 2rem;cursor:default;transition:background .3s,padding-left .3s;position:relative}
-.sp:hover{background:rgba(255,255,255,.018);padding-left:2.4rem}
-.sp::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--red);opacity:0;transition:opacity .3s}
+.sp{background:var(--bg);padding:2.5rem 2.5rem;cursor:default;transition:background .3s,padding-left .3s;position:relative}
+.sp:hover{background:rgba(255,255,255,.025);padding-left:3rem}
+.sp::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red);opacity:0;transition:opacity .3s}
 .sp:hover::before{opacity:1}
 .sp:hover .sp-n{color:var(--red)}
-.sp-n{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.04em;transition:color .3s;margin-bottom:.35rem;line-height:.95}
-.sp-type{font-size:.4rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(237,230,211,.18);margin-bottom:.35rem;font-family:'DM Mono',monospace}
-.sp-d{font-size:.62rem;line-height:1.75;color:rgba(237,230,211,.22);font-family:'Syne',sans-serif}
+.sp-n{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,2.2vw,2.2rem);letter-spacing:.04em;transition:color .3s;margin-bottom:.6rem;line-height:.92}
+.sp-type{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(237,230,211,.25);margin-bottom:.4rem;font-family:'DM Mono',monospace}
+.sp-d{font-size:clamp(.75rem,1vw,.92rem);line-height:1.75;color:rgba(237,230,211,.45);font-family:'Syne',sans-serif;font-weight:500}
 .sp a{color:var(--red);text-decoration:none;opacity:.5;transition:opacity .2s}
 .sp a:hover{opacity:1}
 
@@ -953,7 +953,7 @@ function updateChroma(){
     const t=Math.min((speed-5)/18,1),off=(2+t*13).toFixed(1)+'px';
     root.style.setProperty('--ca-off',off);
     root.style.setProperty('--ca-op-tony',(0.3+t*.35).toFixed(2));
-    root.style.setProperty('--ca-op-mac',Math.min(0.75,0.3+t*.35+0.2).toFixed(2));
+    root.style.setProperty('--ca-op-mac',Math.min(0.98,0.5+t*.45+0.3).toFixed(2));
   }else{
     const t=parseFloat(getComputedStyle(root).getPropertyValue('--ca-op-tony'))||0;
     root.style.setProperty('--ca-op-tony',Math.max(0,t-.003).toFixed(3));
@@ -991,7 +991,7 @@ function buildLine(id,text,cls){
 buildLine('lineTony','TONY','tony-l');buildLine('lineMac','MACPELA','mac-l');
 const magL=[...document.querySelectorAll('.mag-letter')];
 function updateMag(){
-  if(SY>innerHeight*.65)return;const STR=72,RAD=220;
+  if(SY>innerHeight*.65)return;const STR=145,RAD=230;
   magL.forEach(el=>{
     const rect=el.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
     const dx=mx-cx,dy=my-cy,dist=Math.hypot(dx,dy);
