@@ -951,9 +951,9 @@ function updateChroma(){
     root.style.setProperty('--ca-op-mac',Math.min(0.75,0.3+t*.35+0.2).toFixed(2));
   }else{
     const t=parseFloat(getComputedStyle(root).getPropertyValue('--ca-op-tony'))||0;
-    root.style.setProperty('--ca-op-tony',Math.max(0,t-.009).toFixed(3));
+    root.style.setProperty('--ca-op-tony',Math.max(0,t-.003).toFixed(3));
     const m=parseFloat(getComputedStyle(root).getPropertyValue('--ca-op-mac'))||0;
-    root.style.setProperty('--ca-op-mac',Math.max(0,m-.032).toFixed(3));
+    root.style.setProperty('--ca-op-mac',Math.max(0,m-.008).toFixed(3));
   }
 }
 
