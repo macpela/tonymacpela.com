@@ -950,10 +950,10 @@ const root=document.documentElement;
 function updateChroma(){
   if(SY>innerHeight*.7){root.style.setProperty('--ca-op-tony','0');root.style.setProperty('--ca-op-mac','0');return;}
   if(speed>5){
-    const t=Math.min((speed-5)/12,1),off=(4+t*22).toFixed(1)+'px';
+    const t=Math.min(speed/40,1),off=(2+t*10).toFixed(1)+'px';
     root.style.setProperty('--ca-off',off);
-    root.style.setProperty('--ca-op-tony',(0.5+t*.5).toFixed(2));
-    root.style.setProperty('--ca-op-mac',Math.min(1.0,0.7+t*.3).toFixed(2));
+    root.style.setProperty('--ca-op-tony',(0.22+t*.35).toFixed(2));
+    root.style.setProperty('--ca-op-mac',Math.min(0.95,0.45+t*.4).toFixed(2));
   }else{
     const t=parseFloat(getComputedStyle(root).getPropertyValue('--ca-op-tony'))||0;
     root.style.setProperty('--ca-op-tony',Math.max(0,t-.003).toFixed(3));
