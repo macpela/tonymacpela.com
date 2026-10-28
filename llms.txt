@@ -1,0 +1,46 @@
+# Tony Macpela
+
+> Actor, laser designer, video designer, interactive designer, and technical director in Bucharest.
+
+The homepage at https://tonymacpela.com/ is the visual portfolio. Each role and each work has its own page. Credits, directors, and descriptions follow the published portfolio. Contact: maccpela@gmail.com, +40 720 906 907. MA, Interactive Technologies for Performing and Media Arts, UNATC I.L. Caragiale.
+
+## Roles
+
+- [Actor](https://tonymacpela.com/actor/): Actor in Bucharest. The productions on this page are design credits from the portfolio, not a cast list.
+- [Laser design](https://tonymacpela.com/laser-design/): Laser for theater and installations in Bucharest. Stage laser, not industrial cutting.
+- [Video design](https://tonymacpela.com/video-design/): Video design for theater and video mapping, including the AproapE projection suite.
+- [Interactive](https://tonymacpela.com/interactive/): Interactive installations: sensors, laser, gesture, Kinect, and live visuals.
+- [Technical director](https://tonymacpela.com/technical-director/): Technical direction and the published lighting-design credits. A lighting credit is not labeled technical director of that show.
+
+## Works
+
+- [Sirene pe Dâmbovița](https://tonymacpela.com/work/sirene-pe-dambovita/): Video Design. Video design for a poetic reinterpretation of the Siren myth set along the Dâmbovița river — blending live visuals with narrative projection. Dir. Gabriel Sandu.
+- [Fire de lumina](https://tonymacpela.com/work/fire-de-lumina/): Video · Laser Design. An artistic-musical performance that takes you on an introspective journey, from the present to the past, from roots to light, through sense and symbol, where the music and tradition of our ancestors intertwine in threads full of meaning, and fragments of dreams seem real to you. Dir. Milo Simulov.
+- [Cosmic Latte](https://tonymacpela.com/work/cosmic-latte/): Laser · Lighting · Video Design. Full laser, lighting, and video design for a cosmic journey through space and memory. Live laser scanning combined with pre-rendered video content. Dir. Ștefan Lupu.
+- [Tristețe și Bucurie în viața girafelor](https://tonymacpela.com/work/tristete-si-bucurie-in-viata-girafelor/): Lighting Design — International. International co-production Teatrul Mic (Bucharest) × Teatrul Alexei Mateevici (Chișinău). Lighting following the emotional arc of giraffes navigating sadness and joy. Dir. Edda Coza & Dan Coza.
+- [Efectul](https://tonymacpela.com/work/efectul/): Lighting Design. Lighting exploring the ripple effect — how one action changes everything. Stark, surgical lighting underscoring psychological tension. Dir. Jasmine Brooks.
+- [Mostly Fine, Thanks](https://tonymacpela.com/work/mostly-fine-thanks/): Laser Design. Laser design for an intimate show about coping and the fine line between fine and not fine. Laser as both spectacle and metaphor. Dir. Roxana Popa.
+- [Noroc sa ai](https://tonymacpela.com/work/noroc-sa-ai/): Interactive · Video Design. A digital slot machine experience with a main game and matching topper display. It plays themed sounds, shows coordinated visuals across two screens, looks and feels like a real slot machine. Dir. Adina Lazar.
+- [Clovni](https://tonymacpela.com/work/clovni/): Video · Lighting Design. "Clowns Clowns Clowns" starts from three months spent in hospitals in therapeutic clowning interventions and brings to the stage a world where failure puts on the smallest possible mask. Dir. Alexandru Ivanoiu.
+- [Sonification ROOM](https://tonymacpela.com/work/sonification-room/): Interactive installation. Sonification Room is an interactive installation that transforms light into sound. In a hazy room, beams of light and lasers intersect a network of light sensors that trigger and manipulate musical elements. Participants use mirrors to redirect the beams, activating sounds and influencing the evolving composition. Through layered interactions and shared control, the space becomes a collective instrument where movement, light, and sound shape a dynamic musical experience.
+- [Project: Ascend](https://tonymacpela.com/work/project-ascend/): Interactive installation. Merging digital design with physical sculpture. Customize a mythical statue — hair, eyes, body — name it, watch it project in real-time, then hold it in your hands through 3D printing. Featured at Ars Electronica 2025.
+- [The Space Between Us](https://tonymacpela.com/work/the-space-between-us/): Interactive installation. Love does not exist in you or in me — it exists in the fragile, invisible space between us. This installation gives shape to that space, turning the physical distance between the viewer and the canvas into a visual and emotional dialogue.
+- [Ink Flow](https://tonymacpela.com/work/ink-flow/): Interactive installation. Ink Flow borrows a body for a moment. Movement becomes ink, stillness lets it wear your face, and a clap gives the shape back to the pool. Nothing it holds is kept.
+- [Presence Error](https://tonymacpela.com/work/presence-error/): Interactive installation. An interactive audiovisual installation that captures and re-projects the human form in real time. Using Azure Kinect, the installation tracks participants and isolates only their outline —a luminous echo, projected in front of them using a high-powered laser. The result is a raw, minimal version of self: identity stripped down to form, motion, and moment. It invites the audience to question: What remains when your presence is reduced to a signal? Where do you end, and the environment begin?.
+- [Holotouch](https://tonymacpela.com/work/holotouch/): Interactive installation. An interactive installation that uses Leap Motion to detect hand gestures, triggering real-time video projections. By recognizing specific hand signs, it creates a seamless blend of movement and digital art, offering an immersive and responsive visual experience.
+- [House Crash](https://tonymacpela.com/work/house-crash/): Interactive installation. Two big buttons. A collapsing cityscape. Architecture as enemy.
+- [This Kitchen Is For Mapping](https://tonymacpela.com/work/this-kitchen-is-for-mapping/): Video mapping. A video mapping project that transforms an everyday kitchen into a dynamic canvas of light, visuals, and motion. Blending creativity with technology, the project showcases immersive projections that reshape the space, culminating in a short dance performance.
+- [VIDEO MAP UNATC](https://tonymacpela.com/work/video-map-unatc/): Video mapping. Building facade becomes a space shuttle. UFOs pass. The journey unfolds beyond Earth.
+- [2 Mai-Și Festival](https://tonymacpela.com/work/2-mai-si-festival/): Video mapping. Mural Videomap MIX.
+- [LIGHT UP DEMO](https://tonymacpela.com/work/light-up-demo/): Video mapping. Light Up Festival — large-scale outdoor projection installation.
+- [Singură cu Marilyn](https://tonymacpela.com/work/singura-cu-marilyn/): Video Projection. Part of the AproapE video projection suite: performative readings of current Hispanic theater, through which contemporary Spanish dramaturgy catches the light of the stage. Tony Macpela's credit on this reading is video projection. Directed by Bobi Pricop.
+- [Chiriaș](https://tonymacpela.com/work/chirias/): Video Projection. Part of the AproapE video projection suite: performative readings of current Hispanic theater, through which contemporary Spanish dramaturgy catches the light of the stage. Tony Macpela's credit on this reading is video projection. Directed by Mihai Gligan.
+- [De parcă seara asta ar fi...](https://tonymacpela.com/work/de-parca-seara-asta-ar-fi/): Video Projection. Part of the AproapE video projection suite: performative readings of current Hispanic theater, through which contemporary Spanish dramaturgy catches the light of the stage. Tony Macpela's credit on this reading is video projection. Directed by Luiza Dabija.
+- [Epoca frigului. Conversații cu Antigona](https://tonymacpela.com/work/epoca-frigului-conversatii-cu-antigona/): Video Projection. Part of the AproapE video projection suite: performative readings of current Hispanic theater, through which contemporary Spanish dramaturgy catches the light of the stage. Tony Macpela's credit on this reading is video projection. Directed by Andrei Măjeri.
+
+## Optional
+
+- [Instagram](https://instagram.com/tony_macpela): @tony_macpela
+- [Linktree](https://linktr.ee/Tony_Macpela)
+- [Project: Ascend at Ars Electronica 2025](https://ars.electronica.art/panic/en/view/ascend-20e38ddb450c8197b093e3e5c18b539e/)
+- [Sitemap](https://tonymacpela.com/sitemap.xml): Every indexable URL on the site.
